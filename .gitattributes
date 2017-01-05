@@ -1,4 +1,3 @@
-*.php linguist-language=Java
 
 # Auto detect text files and perform LF normalization
 * text=auto
