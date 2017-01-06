@@ -1,0 +1,4 @@
+AddDefaultCharset UTF-8
+
+RewriteEngine On
+	RewriteRule ^([a-zA-Z0-9]+)$ r.php?k=$1 [NE]

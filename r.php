@@ -1,19 +1,22 @@
 <?php
-if(!isset($_GET['k'])) die('Íåò íåîáõîäèìûõ ïàðàìåòðîâ.');
-	
-	include 'config.php';
-	include 'base62.php';
-	
-	$key = $_GET['k'];
-	$id = Base62::Decode($key);
-	
-	$sql  = 'SELECT `url` FROM `urls` WHERE `id` = '.$id.' LIMIT 1';
-	$result = mysql_query($sql);
-	
-if(!$result || mysql_num_rows($result) == 0) die('Íåò òàêîãî URL.');
-	
-	$result = mysql_fetch_assoc($result);
-	
-	Header('HTTP/1.1 301 Moved Permanetly');
-	Header('Location: ' . $result['url']);
+if(!isset($_GET['k'])) die('ÐÐµÑ‚ Ð½ÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ñ‹Ñ… Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ð¾Ð².');
+
+include 'sql.php';
+include 'base62.php';
+
+$db = new SafeMySQL();
+
+$key = $_GET['k'];
+$id = Base62::Decode($key);
+
+$sql  = 'SELECT `url` FROM `urls` WHERE `id` = '.$id.' LIMIT 1';
+$item = $db->getRow($sql);
+
+if(empty($item)){
+    die('ÐÐµÑ‚ Ñ‚Ð°ÐºÐ¾Ð³Ð¾ URL.');
+} else {
+    Header('HTTP/1.1 301 Moved Permanetly');
+    Header('Location: ' . $item['url']);
+}
+
 ?>
